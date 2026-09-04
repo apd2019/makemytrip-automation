@@ -38,16 +38,15 @@ public class LoginTest {
 
 	@BeforeTest
 	void setUp() {
-		
-		
+
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless=new");
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-dev-shm-usage");
 		driver = new ChromeDriver(options);
-		
+
 		WebDriverManager.chromedriver().setup();
-		
+
 		driver.manage().deleteAllCookies();
 
 		driver.manage().window().maximize();
@@ -73,7 +72,15 @@ public class LoginTest {
 		}
 
 	}
-
+	
+	
+/** ----------------------------------------------------------------------------------- */
+	
+	
+	
+	
+	
+	
 	@Test(priority = 3)
 	void clickLoginButton() {
 
@@ -84,7 +91,7 @@ public class LoginTest {
 
 	@Test(priority = 4)
 	void selectCountryDrpdwn() throws InterruptedException {
-		
+
 		WebElement selectCountryDrpdwn = driver.findElement(By.cssSelector("p[data-cy='MobileCodeDropDown_59']"));
 		selectCountryDrpdwn.click();
 
@@ -117,11 +124,10 @@ public class LoginTest {
 //
 //	}
 
-	
-
 	@Test(priority = 5)
 	void selectExactCountry() throws InterruptedException {
-		
+		//it will select the exact country from the list of countries in the phone country dropdown list, if the country is not found, it will throw an exception
+
 		Thread.sleep(5000);
 		System.out.println("==============running the selectcountry method====================");
 
@@ -144,7 +150,7 @@ public class LoginTest {
 //		for (WebElement country : listOfCountry) {
 //			country.getText();
 //			// get each country everytime
-		////			String countryName = country.getText();
+		//// String countryName = country.getText();
 //			if (country.getText().contains("AlandIslands")) {
 //				WebElement selectCountryFromList = driver
 //						.findElement(By.xpath("//div[@class='li makeFlex hrtlCenter font12']/span"));
@@ -158,7 +164,7 @@ public class LoginTest {
 
 //		for (int i = 0; i < listOfCountry.size(); i++) {
 //			WebElement eachCountryInTheList = listOfCountry.get(i);
-		////			System.out.println(eachCountryInTheList.getText());
+		//// System.out.println(eachCountryInTheList.getText());
 //
 //			if (eachCountryInTheList.getText().contains("AlandIslands")) {
 //				System.out.println("==================== The filtered country name is => "
@@ -192,9 +198,6 @@ public class LoginTest {
 //				.findElements(By.xpath("//div[@class='li makeFlex hrtlCenter font12']/span[2]"));
 
 //		List<WebElement> listOfCountry = driver.findElements(By.xpath("//div[@class='li makeFlex hrtlCenter font12']/span[2]"));
-		
-		
-		
 
 //		List<WebElement> listOfCountry = driver.findElements(By.cssSelector("div.cntrycode__list div.li"));
 //
@@ -216,58 +219,43 @@ public class LoginTest {
 //			}
 //
 //		} 
-		
-		
-		
+
 //		use this positional selector for retrieving the country name only
 		// to target the middle span that contains the country name
 //		WebElement nameSpan = country.findElements(By.tagName("span")).get(1); // second span = name+code
-		
-		/** Advanced => use Java Streams to express this same "did we find one" logic more concisely, without a manual boolean flag: */
-		
+
+		/**
+		 * Advanced => use Java Streams to express this same "did we find one" logic
+		 * more concisely, without a manual boolean flag:
+		 */
+
 		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.cntrycode__list div.li")));
 		List<WebElement> countryList = driver.findElements(By.cssSelector("div.cntrycode__list div.li"));
-		
+
 		boolean found = false;
-		
+
 		for (WebElement country : countryList) {
-			//the name+code both live in the first <span> e.g. "India (+91)"
+			// the name+code both live in the first <span> e.g. "India (+91)"
 			WebElement nameSpan = country.findElement(By.cssSelector("span:not(.flagContainer):not(.phoneCode)"));
-			
+
 			String fullText = nameSpan.getText().trim();
-			
-			
+
 //			Strip off the trailing "(+xx)" phone coe to isolate just the name
-			String countryNameOnly = fullText.replaceAll("\\s*?\\(\\+\\d+\\)\\s*$","").trim();
-			
-			if(countryNameOnly.equalsIgnoreCase("india")) {
+			String countryNameOnly = fullText.replaceAll("\\s*?\\(\\+\\d+\\)\\s*$", "").trim();
+
+			if (countryNameOnly.equalsIgnoreCase("india")) {
 				country.click();
 				found = true;
 				break;
 			}
 		}
-		
-		if(!found) {
+
+		if (!found) {
 			throw new NoSuchElementException("no exact country match found for: " + "India");
 		}
 	}
-	
-	
-	
-	
+
 //	-----------------------------------------------------------------------------------------------------------
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	@Test(priority = 6)
 	void fillUserName() throws InterruptedException {
