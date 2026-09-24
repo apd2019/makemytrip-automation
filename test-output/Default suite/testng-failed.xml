@@ -3,15 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.automation.tests.LoginTest">
+      <class name="com.automation.tests.FlightSearchTest">
         <methods>
+          <include name="closeLoginPopup"/>
           <include name="setUp"/>
-          <include name="fillUserName"/>
-          <include name="selectCountryDrpdwn"/>
-          <include name="clickLoginButton"/>
-          <include name="selectExactCountry"/>
+          <include name="testFlow"/>
         </methods>
-      </class> <!-- com.automation.tests.LoginTest -->
+      </class> <!-- com.automation.tests.FlightSearchTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
